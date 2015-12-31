@@ -1,8 +1,9 @@
+require_relative 'utils/status_code'
 require_relative 'response'
 
-class Route
+module Route
 
-  Rack::Utils::SYMBOL_TO_STATUS_CODE.each do |symbol, code|
+  Utils::StatusCode.symbols_map.each do |symbol, code|
     define_method(symbol) do |content = nil|
       Response.send(symbol, content)
     end

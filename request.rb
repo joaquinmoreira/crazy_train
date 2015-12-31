@@ -1,6 +1,4 @@
 class Request
-  require 'byebug'
-
   attr_reader :method, :path, :query_string
 
   def initialize(method, path, query_string = nil)

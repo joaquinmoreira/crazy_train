@@ -1,7 +1,8 @@
 require_relative '../route'
 
-class Foo < Route
+class Foo
   def bar
     'asd'
+    not_found
   end
 end
