@@ -12,7 +12,7 @@ module Router
     require_relative 'response'
     Response.build(response)
 
-  rescue NotFound
+  rescue NotFound, NoMethodError
     Response.not_found
   end
 
