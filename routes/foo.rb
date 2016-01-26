@@ -2,7 +2,11 @@ require_relative '../route'
 
 class Foo
   def bar
-    'asd'
+    Response.build('<html><head><title>Title</title></head><body>hola</body></html>',
+      content_type: :html)
+  end
+
+  def test
     not_found
   end
 end

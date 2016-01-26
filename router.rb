@@ -1,3 +1,5 @@
+require 'byebug'
+
 module Router
   BASE_ROUTES_FOLDER = 'routes'
 
