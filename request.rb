@@ -1,6 +1,8 @@
 class Request
   attr_reader :method, :path, :query_string
 
+  DEFAULT_INDEX_ACTION = :index
+
   def initialize(method, path, query_string = nil)
     @method = method
     @path = path
@@ -26,7 +28,7 @@ class Request
   end
 
   def path_action
-    path_sections[1]
+    path_sections[1] || DEFAULT_INDEX_ACTION
   end
 
   # TODO: Include all scenarios.
