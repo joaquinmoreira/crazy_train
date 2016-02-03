@@ -1,16 +1,19 @@
 require_relative '../route'
 
-class Foo
+class Foo < Route
   def index
-    {some: 'hi', json: 'world!'}
+    {some: 'hi', json: query['asd']}
   end
 
   def bar
-    Response.build('<html><head><title>Title</title></head><body>hola</body></html>',
-      content_type: :html)
+    Response.build('<p>Hola</p>', content_type: :html)
   end
 
   def test
     not_found
+  end
+
+  def people
+    {id: @id}
   end
 end

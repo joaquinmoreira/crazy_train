@@ -1,37 +1,39 @@
-require 'byebug'
+require_relative 'response'
 
 module Router
   BASE_ROUTES_FOLDER = 'routes'
+  DEFAULT_INDEX_ACTION = :index
 
   module_function
 
   def dispatch(request)
-    target_class = lookup(request)
-    response = target_class.send(request.path_action)
+    route = lookup(request)
+    response = route.send(action(request))
 
-    require_relative 'response'
     Response.build(response)
 
   rescue NotFound, NoMethodError
     Response.not_found
   end
 
-  # TODO: Research ways to load code
-  # https://practicingruby.com/articles/ways-to-load-code
-
   # TODO: Hide this method from outside the module
   def lookup(request)
-    file_path = File.join(BASE_ROUTES_FOLDER, "#{request.primary_path}.rb")
+
+    primary_path = request.path_segments.first
+    target_class = primary_path.capitalize
+
+    file_path = File.join(BASE_ROUTES_FOLDER, "#{primary_path}.rb")
     raise NotFound.new(request) unless File.exists?(file_path)
 
     require_relative file_path
-    route = Object.const_get(request.target_class).new
-
-    require_relative 'route'
-    route.extend(Route)
+    Object.const_get(target_class).new(request)
 
   rescue LoadError
     raise NotFound.new(request) unless File.exists?(file_path)
+  end
+
+  def action(request)
+    request.path_segments[1] || DEFAULT_INDEX_ACTION
   end
 
   class NotFound < StandardError; end

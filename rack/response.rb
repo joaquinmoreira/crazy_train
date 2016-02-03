@@ -5,7 +5,7 @@ module Rack
       headers = {
         'Content-Type' => response.content_type
       }.merge!(response.options)
-      content = [response.content.to_s]
+      content = [response.content]
 
       new(response.status_code, headers, content)
     end

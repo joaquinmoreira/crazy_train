@@ -1,3 +1,4 @@
+require 'json'
 require_relative 'utils/content_type'
 require_relative 'utils/status_code'
 require_relative 'rack/response'
@@ -79,14 +80,15 @@ class ResponseBuilder
     end
   end
 
-  # TODO: Integrate other content_types
   def build_content(content_type)
     @content.class == Response ? @content.content : @content
-    if content_type == Utils::ContentType::JSON
-      require 'json'
+    case content_type
+    when Utils::ContentType::JSON
       @content.to_json
-    else
+    when Utils::ContentType::HTML
       @content
+    else
+      @content.to_s
     end
   end
 

@@ -1,39 +1,22 @@
 class Request
-  attr_reader :method, :path, :query_string
+  attr_reader :url, :method, :post_data
 
-  DEFAULT_INDEX_ACTION = :index
-
-  def initialize(method, path, query_string = nil)
+  def initialize(url, method, post_data = nil)
+    @url = url
     @method = method
-    @path = path
-    @query_string = query_string
+    @parsed_uri = URI.parse(url)
   end
 
   def self.from_rack_env(rack_env)
-    new(
-      rack_env['REQUEST_METHOD'],
-      rack_env['PATH_INFO'],
-      rack_env['QUERY_STRING']
-    )
+    new(rack_env['REQUEST_URI'], rack_env['REQUEST_METHOD'], rack_env['rack.input'].gets)
   end
 
-  # TODO: Improve split
-  def path_sections
+  def method_missing(method_name, *args, &block)
+    @parsed_uri.send(method_name, *args, &block)
+  end
+
+  def path_segments
+    # Since path starts with a '/' the first element is nil so its dropped
     path.split('/').drop(1)
-  end
-
-  # TODO: Refactor move path related code to its own class
-  def primary_path
-    path_sections.first
-  end
-
-  def path_action
-    path_sections[1] || DEFAULT_INDEX_ACTION
-  end
-
-  # TODO: Include all scenarios.
-  # Currently an heuristic working for single worded file names only
-  def target_class
-    primary_path.capitalize
   end
 end
