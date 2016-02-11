@@ -58,7 +58,7 @@ end
 Start the crazy server:
 
 ``` 
-$ crazy 
+$ bundle exec crazy 
 ```
 
 Hit your browser on: `http://localhost:8080/foo?asd=world` 
