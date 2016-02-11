@@ -1,4 +1,4 @@
-# crazy_train
+# Crazy Train
 
 ![image](http://cdn.meme.am/instances/500x/60254699.jpg)
 
