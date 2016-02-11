@@ -1,15 +1,17 @@
-# CrazyTrain
+# crazy_train
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/crazy_train`. To experiment with that code, run `bin/console` for an interactive prompt.
+![image](http://cdn.meme.am/instances/500x/60254699.jpg)
 
-TODO: Delete this and the text above, and describe your gem
+Ruby web micro framework with simplicity and zero configuration as its foundations!
+
+It's now in an early stage and it's not recommended to be used in a production environment.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'crazy_train'
+gem 'crazy_train', github: 'joaquinrulin/crazy-train'
 ```
 
 And then execute:
@@ -22,13 +24,52 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create a folder named routes:
 
-## Development
+``` $ mkdir routes ```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+Create a route file like inside routes folder: 
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+# routes/foo.rb
+
+require 'crazy_train'
+
+class Foo < Route
+  def index
+    {some: 'hi', json: query['asd']}
+  end
+
+  def bar
+    Response.build('<p>Hi</p>', content_type: :html)
+  end
+
+  def test
+    not_found
+  end
+
+  def people
+    {id: @id}
+  end
+end
+
+```
+
+Start the crazy server:
+
+``` 
+$ crazy 
+```
+
+Hit your browser on: `http://localhost:8080/foo?asd=world` 
+
+## To be done
+1. Specs.
+2. Logic for default route at `/`.
+3. Wrapper for rack logger to implement simple logging.
+4. Easy way to configure port and other basic server features.
+5. Performance tests and benchmark with other similar ruby frameworks.
+
 
 ## Contributing
 
